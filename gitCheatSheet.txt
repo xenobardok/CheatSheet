@@ -1,0 +1,171 @@
+// Configuration
+git config --global user.name "Your Name"
+git config --global user.email "youremail@email.com"
+to check: git config --list
+	git config user.name
+	git config user.email
+	cat .gitconfig
+
+Goto root directory: cd ~
+Check path: pwd
+display all directories: ls -la
+
+git config --global core.editor "notepad.exe/mate -wl1/emax"
+git config --global color.ui true
+
+// Help
+git help
+
+// Initializing the project
+
+git init
+ls -la .git // Files inside .git
+git add .   // Adding all files to staging area
+
+// Commits and search
+git commit -m "Message Here" // Commit
+git log // Check commit history
+git log -n <number> // Display <number> of commits
+git log --since="2012-06-15"  // Search commit since 2012-06-12 or 2 weeks ago
+git log --until="2012-06-15"  // or use 3 days ago
+git log --author="Sunil Jamkatel" // User commit search
+git log --grep="Init" // Check "Init" in all commits and returns it
+git log --oneline -3
+git log 2907d12..acf8750 --oneline // commits between 2907d12 and acf8750
+git log "-p" 2907d12.. index.html // changes to index.html since 2907d12 commit // adding -p will show changes
+git log --stat --summary // changes in all files
+git log --format= // many formats check help
+git log --oneline --graph --all --decorate // most useful
+
+THREE-TREE ARCHITURE
+	+++++++++++++++++++++++++
+	+	repository	+-----------------
+	+++++++++++++++++++++++++		 |
+		^				 |
+	+++++++++++++++++++++++++		 |
+	+	staging index	+		 |
+	+++++++++++++++++++++++++		 |
+		^				 |
+	+++++++++++++++++++++++++		 |
+	+	working		+<----------------		 
+	+++++++++++++++++++++++++
+
+// Checking head
+cd .git
+cat HEAD
+cd refs
+cd heads
+cat master --------------> the current commit
+
+
+// Adding files 
+git status // Check the status of the repo
+git add <filename> // Adding files
+git commit -m "Message"
+OR,
+git commit -am "Message"
+git show <SHA> // view more about the commit
+
+git diff // Check the repo and the working repo and displays difference
+git diff <filename> // Changes in the filename
+git diff --color-words <filename>
+git diff --staged // Check the changes in the staged files with working directory
+git diff 1506576 tours.html // changes from 1506576 to now in tours.html
+git diff "-w" oneSHA..nextSHA // changes from onesha to nextsha // -w removes any white space changes
+git diff --color-words master..newBranch // changes in master and newBranch branches, aor --color-words, add^ end of the newBranch
+
+// Delete the file from the repo
+Delete from the local file and add, commit OR,
+git rm <filename>
+
+// Rename the file from the repo
+Rename from the local file and add, commit OR,
+git mv <OldFilename> <NewFilename>
+git mv <OldFilename> <dir>/<OldFilename> // Moving files
+
+
+// Recover the files
+git checkout <commitSHA> -- <filename> // Move to the staging area
+git reset HEAD <filename> // Unstage the file named <filename>
+git checkout -- <filename> // Recover unstaged changes, -- to tell git to stay in the current branch
+
+// Amending 
+git commit --amend -m "Message" // Amends the recent commit
+git commit --amend -m "NewMessage" // Change the commit message
+git revert <commitSHA> // Reverts all the changes by the commit
+git revert <commitSHA> -n // Revert but wont commit but stage it be commited
+
+<----------------DANGEROUS---------------->
+// Overiding head pointers.. can lose commits Always log the commits before doing it. copy to text file.
+
+git reset --<soft/mixed/hard> <commitSHA>
+// undo reset
+git reset --<soft/mixed/hard> <latestSHA>
+
+--soft // does not change staging index or working directory
+--mixed // changes staging index to match reposity, does not change working directory
+--hard // changes staging index and working directory to match repository "Most Dangerous"
+<------------------------------------------>
+// Tracking an empty direcotry
+Add an empty file named ".gitkeep"
+
+
+// Branches
+git branch // lists all the branches
+git branch branchName // create branch named branchName, head still points to master, adds new refs ls -la .git/refs/heads
+git checkout branchName // changes branch to branchName, to check // cat .git/HEAD
+git show HEAD // shows diff between branches
+git checkout -b newBranch // Create and switch branch
+git branch --merged // check if the branches are merged or not
+git branch (-m or --move) branchName newName // rename branchName to newName
+git branch (-d or --delete) branchName // deletes the branch named branchName
+git branch -D branchName // force delete a branch that has unmerged changes
+git branch non_tracking origin/non_tracking // adding a non_tracking branch from remote repo to the local repo
+
+
+// Merge Branches
+// First go the master branch or branch you want to merge to
+git merge branchName // merge master to branchName
+git merge --no-ff branchName // dont fast-forward
+git merge --only-ff branchName // merge if only fast-forward dont otherwise
+
+// Stash
+git stash save "Message"
+git stash list
+git stash show stash@{0} //show brief changes
+git stash show -p stash@{0} //show detail information on changes p for patch
+git stash pop/apply stash@{0} // pulls the items from the stash and store in the working directory
+git stash drop stash@{0} // deletes the stash@{0}
+git stash clear // deletes all the stashes
+
+// Remote
+git remote // Shows all the remotes
+git remote add origin <url> // 
+git remote -v // shows information what git uses for remote push and fetch
+cat .git/config // has information of the git remote
+git remote rm origin // removes origin remote, if needed can be added again
+git push -u origin master // one time only; pushes master branch to origin, u keeps the track the remote branch; doesnt only push
+git push // every other time
+ls -la .git/refs/remotes/origin
+git branch -r // shows remote branches
+git branch -a // shows local and remote branches
+git log -p <branch>..origin/<branch> // shows the changes in the remote branch and the local branch
+
+
+// Pulling local copy of a remote github
+git clone <url> <foldername>// pulls the remote repo to the foldername
+git fetch origin // only fetch if only one repo; 
+git merge origin/master // to merge
+git pull // git fetch + git merge
+
+// Added to track if a branch is pushed without -u
+git config branch.<branch_non_tracking>.remote origin
+git config branch.<branch_non_tracking>.merge refs/heads/master
+
+OR,
+git branch --set-upstream <branch_non_tracking> origin/<branch_non_tracking>
+
+// Delete remote branches
+git push origin :<branchName>
+git push origin --delete <branchName>
+
