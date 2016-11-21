@@ -169,3 +169,5 @@ git branch --set-upstream <branch_non_tracking> origin/<branch_non_tracking>
 git push origin :<branchName>
 git push origin --delete <branchName>
 
+
+Assembled by Sunil Jamkatel.
