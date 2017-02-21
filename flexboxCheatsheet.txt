@@ -1,0 +1,16 @@
+.parent{
+  display:flex;
+  flex-direction: row | row-reverse | column | column-reverse
+  flex-wrap: wrap | (default) no-wrap | wrap-reverse // if no-wrap, the elements get confined in the width of the parent. If wrapped, the elements are allowed to grow
+  justify-content: flex-start | flex-end | center | space-between | space-around;
+  align-items: flex-start | flex-end | stretch | baseline; // aligns the y axis
+  align-content: center | space-around | space-between
+}
+
+.item{
+  width
+}
+
+.item:nth-child(2){
+  order:1 (default: 0);
+}
